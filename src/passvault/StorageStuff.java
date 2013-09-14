@@ -37,7 +37,13 @@ public class StorageStuff
         file = new File(FILE_NAME);
     }
     
-    public boolean start(int tries) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, FileNotFoundException, IOException
+    public boolean start(int tries) throws NoSuchPaddingException
+            , NoSuchAlgorithmException
+            , InvalidKeyException
+            , IllegalBlockSizeException
+            , BadPaddingException
+            , FileNotFoundException
+            , IOException
     {
         boolean result = false;
         if(file.exists())
@@ -46,7 +52,8 @@ public class StorageStuff
             this.setEncKey(0, tries);
             crypt = new EncDec(progKey);
             this.loadProp();
-            if(myKey.equals(crypt.decrypt(prop.getProperty(crypt.encrypt("$$$userKey$$$")))))
+            if(myKey.equals(crypt.decrypt(prop.getProperty(
+                    crypt.encrypt("$$$userKey$$$")))))
             {
                 result = true;
             }
@@ -75,7 +82,11 @@ public class StorageStuff
             , IllegalBlockSizeException
             , BadPaddingException
     {
-        return crypt.decrypt(prop.getProperty(crypt.encrypt(key)));
+        if(prop.getProperty(crypt.encrypt(key)) != null)
+        {
+            return crypt.decrypt(prop.getProperty(crypt.encrypt(key)));
+        }
+        return null;
     }
     
     public void saveProp() throws FileNotFoundException, IOException

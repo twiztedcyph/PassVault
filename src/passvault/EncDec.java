@@ -51,7 +51,6 @@ public class EncDec
         
         cipher.init(Cipher.DECRYPT_MODE, sks);
         result = new String(cipher.doFinal(Base64.decode(inputText)));
-        
         return result;
     }
     
